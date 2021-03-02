@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "mycacher"
+version = "0.1.0"
+description = "Auto refresh cache of redis with MySQL binlog"
+authors = ["long2ice <long2ice@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/long2ice/mycacher"
+repository = "https://github.com/long2ice/mycacher.git"
+documentation = "https://github.com/long2ice/mycacher"
+keywords = ["redis", "cache", "mysql", "binlog"]
+packages = [
+    { include = "mycacher" }
+]
+include = ["CHANGELOG.md", "LICENSE", "README.md"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+mysql-replication = "*"
+kafka-python = "*"
+redis = "*"
+typer = "*"
+dynaconf = "*"
+
+[tool.poetry.dev-dependencies]
+flake8 = "*"
+isort = "*"
+black = "^20.8b1"
+pytest = "*"
+pytest-xdist = "*"
+pytest-asyncio = "*"
+bandit = "*"
+pytest-mock = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+mycacher = "mycacher.cli:app"
