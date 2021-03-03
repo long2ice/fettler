@@ -21,6 +21,7 @@ kafka-python = "*"
 redis = "*"
 typer = "*"
 dynaconf = "*"
+flask = "*"
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"
