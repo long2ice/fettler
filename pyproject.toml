@@ -1,27 +1,26 @@
 [tool.poetry]
-name = "mycacher"
+name = "fettler"
 version = "0.1.0"
 description = "Auto refresh cache of redis with MySQL binlog"
 authors = ["long2ice <long2ice@gmail.com>"]
 license = "Apache-2.0"
 readme = "README.md"
-homepage = "https://github.com/long2ice/mycacher"
-repository = "https://github.com/long2ice/mycacher.git"
-documentation = "https://github.com/long2ice/mycacher"
+homepage = "https://github.com/long2ice/fettler"
+repository = "https://github.com/long2ice/fettler.git"
+documentation = "https://github.com/long2ice/fettler"
 keywords = ["redis", "cache", "mysql", "binlog"]
 packages = [
-    { include = "mycacher" }
+    { include = "fettler" }
 ]
 include = ["CHANGELOG.md", "LICENSE", "README.md"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-mysql-replication = "*"
-kafka-python = "*"
-redis = "*"
-typer = "*"
+click = "*"
 dynaconf = "*"
-flask = "*"
+fastapi = "*"
+uvicorn = "*"
+aioredis = "*"
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"
@@ -38,4 +37,4 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-mycacher = "mycacher.cli:app"
+fettler = "fettler.cli:app"
