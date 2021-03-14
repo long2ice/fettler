@@ -21,6 +21,7 @@ dynaconf = "*"
 fastapi = "*"
 uvicorn = "*"
 aioredis = "*"
+asyncmy = { git = "https://github.com/long2ice/asyncmy", branch = "dev" }
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"

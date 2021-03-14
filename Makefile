@@ -1,4 +1,4 @@
-checkfiles = mycache/ tests/ conftest.py
+checkfiles = fettler/ tests/ conftest.py
 black_opts = -l 100 -t py38
 py_warn = PYTHONDEVMODE=1
 

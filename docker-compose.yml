@@ -1,2 +1,5 @@
 version: "3"
 services:
+  producer:
+  consumer:
+  server:
