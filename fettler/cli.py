@@ -1,5 +1,6 @@
 import asyncio
 import sys
+import uuid
 from functools import wraps
 
 import click
@@ -33,11 +34,12 @@ def cli(ctx: Context, config: str):
 
 
 @cli.command(help="Start consumer.")
+@click.option("-n", "--name", default=uuid.uuid4().hex, help="Consumer name.")
 @click.pass_context
 @coro
-async def consume(ctx: Context):
+async def consume(ctx: Context, name: str):
     settings = ctx.obj["settings"]
-    await consumer.run(settings)
+    await consumer.run(settings, name)
 
 
 @cli.command(help="Start producer.")
