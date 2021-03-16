@@ -12,8 +12,6 @@ jobs:
       - name: Redis Server in GitHub Actions
         uses: supercharge/redis-github-action@1.1.0
       - uses: actions/checkout@v2
-      - name: Run docker-compose
-        run: docker-compose up -d --build
       - uses: actions/setup-python@v2
         with:
           python-version: "3.x"
@@ -21,5 +19,13 @@ jobs:
         uses: snok/install-poetry@v1.1.1
         with:
           virtualenvs-create: false
-      - name: CI
+      - name: Install deps
+        run: make deps
+      - name: Run server
+        run: nohup fettler serve &
+      - name: Run producer
+        run: nohup fettler produce &
+      - name: Run consumer
+        run: nohup fettler consume &
+      - name: Run CI
         run: make ci

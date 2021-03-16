@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 import aioredis
@@ -53,6 +54,7 @@ async def run():
     test.name = "test"
     await test.save(update_fields=["name"])
 
+    await asyncio.sleep(2)
     # cache will auto delete by fettler, so we will get new data
     data = await cache_test(redis, key)
     assert data == [{"id": 1, "name": "test"}]

@@ -1,3 +1,5 @@
+import asyncio
+
 import pytest
 
 from conftest import TEST_KEY, get_redis
@@ -13,6 +15,6 @@ async def test_fettler():
     test = await Event.all().first()
     test.name = "test"
     await test.save(update_fields=["name"])
-
+    await asyncio.sleep(2)
     data = await cache_test(redis, TEST_KEY)
     assert data == [{"id": 1, "name": "test"}]

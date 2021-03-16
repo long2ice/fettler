@@ -2,19 +2,19 @@ redis:
   host: 127.0.0.1
   port: 6379
   db: 0
-  max_len: 200000
+  max_len: 200000 # max len of queue len
 mysql:
   host: 127.0.0.1
   port: 3306
   user: root
   password: '123456'
-replication:
+replication: # the config item comes from https://github.com/long2ice/asyncmy/blob/dev/asyncmy/replication/binlogstream.py and all items will pass in BinLogStream
   server_id: 1
   only_schemas:
     - test
   only_tables:
     - test.test
-server:
+server: # http server config
   host: 0.0.0.0
   port: 8000
   debug: true
