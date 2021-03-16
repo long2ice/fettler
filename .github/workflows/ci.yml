@@ -8,6 +8,7 @@ jobs:
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql root password: '123456'
+          mysql database: 'test'
       - name: Redis Server in GitHub Actions
         uses: supercharge/redis-github-action@1.1.0
       - uses: actions/checkout@v2
