@@ -36,6 +36,7 @@ bandit = "*"
 pytest-mock = "*"
 httpx = "*"
 tortoise-orm = { git = "https://github.com/tortoise/tortoise-orm", branch = "develop" }
+cryptography = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
