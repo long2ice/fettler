@@ -8,7 +8,9 @@
 ## Introduction
 
 `Fettler` is a service that help you refresh redis cache automatically. By listening on MySQL binlog, you can refresh
-redis in a timely manner and devoid of sensation or consciousness.
+redis cache in a timely manner and devoid of sensation or consciousness.
+
+![architecture](./images/architecture.png)
 
 ## Install
 
@@ -61,6 +63,10 @@ The consumer consume message queue and delete invalid caches by data changes and
 ```shell
 > fettler consume
 ```
+
+## Register cache refresh policy
+
+See [examples](./examples) to see how to add cache refresh policy in you application.
 
 ## License
 
