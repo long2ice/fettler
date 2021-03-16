@@ -5,6 +5,7 @@ from asyncmy import connect
 from asyncmy.replication.binlogstream import BinLogStream
 from asyncmy.replication.row_events import DeleteRowsEvent, UpdateRowsEvent, WriteRowsEvent
 from dynaconf import Dynaconf
+from loguru import logger
 
 from fettler import constants
 from fettler.utils import JsonEncoder
@@ -15,7 +16,7 @@ async def run(settings: Dynaconf):
     redis = settings.redis
     max_len = redis.max_len or constants.STREAM_MAX_LEN
     redis = await aioredis.create_redis_pool(
-        f"redis://{redis.host}:{redis.port}", db=redis.store_db, encoding="utf8"
+        f"redis://{redis.host}:{redis.port}", db=redis.db, encoding="utf8"
     )
     connect_kwargs = dict(
         host=mysql.host, port=mysql.port, user=mysql.user, password=mysql.password
@@ -31,6 +32,7 @@ async def run(settings: Dynaconf):
         **settings.replication,
     )
     await stream.connect()
+    logger.info("Start producer success, listening on binlog....")
     async for event in stream:
         if isinstance(event, DeleteRowsEvent):
             type_ = "delete"

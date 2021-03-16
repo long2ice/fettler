@@ -22,6 +22,8 @@ fastapi = "*"
 uvicorn = "*"
 aioredis = "*"
 asyncmy = { git = "https://github.com/long2ice/asyncmy", branch = "dev" }
+ciso8601 = "*"
+loguru = "*"
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"
@@ -32,10 +34,12 @@ pytest-xdist = "*"
 pytest-asyncio = "*"
 bandit = "*"
 pytest-mock = "*"
+httpx = "*"
+tortoise-orm = { git = "https://github.com/tortoise/tortoise-orm", branch = "develop" }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-fettler = "fettler.cli:app"
+fettler = "fettler.cli:main"

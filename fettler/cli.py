@@ -1,6 +1,6 @@
 import asyncio
+import socket
 import sys
-import uuid
 from functools import wraps
 
 import click
@@ -9,7 +9,7 @@ from click import Context
 from dynaconf import Dynaconf
 
 from fettler import __VERSION__, consumer, producer
-from fettler.server import app
+from fettler.server import create_app
 
 
 def coro(f):
@@ -23,7 +23,7 @@ def coro(f):
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(__VERSION__, "-v", "--version")
-@click.option("-c", "--config", default="./config.yml", help="Config file.")
+@click.option("-c", "--config", show_default=True, default="./config.yml", help="Config file.")
 @click.pass_context
 def cli(ctx: Context, config: str):
     ctx.ensure_object(dict)
@@ -34,7 +34,13 @@ def cli(ctx: Context, config: str):
 
 
 @cli.command(help="Start consumer.")
-@click.option("-n", "--name", default=uuid.uuid4().hex, help="Consumer name.")
+@click.option(
+    "-n",
+    "--name",
+    show_default=True,
+    default=socket.gethostname(),
+    help="Consumer name, default is hostname.",
+)
 @click.pass_context
 @coro
 async def consume(ctx: Context, name: str):
@@ -55,6 +61,7 @@ async def produce(ctx: Context):
 def serve(ctx: Context):
     settings = ctx.obj["settings"]
     server_config = settings.server
+    app = create_app(settings)
     uvicorn.run(app, debug=server_config.debug, host=server_config.host, port=server_config.port)
 
 

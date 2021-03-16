@@ -2,11 +2,11 @@ import datetime
 import json
 from decimal import Decimal
 
-import dateutil.parser
+import ciso8601
 
 CONVERTERS = {
-    "date": dateutil.parser.parse,
-    "datetime": dateutil.parser.parse,
+    "date": ciso8601.parse_datetime,
+    "datetime": ciso8601.parse_datetime,
     "decimal": Decimal,
 }
 
@@ -32,3 +32,41 @@ def object_hook(obj):
         return CONVERTERS[_spec_type](obj["val"])
     else:
         raise TypeError("Unknown {}".format(_spec_type))
+
+
+def is_match_filters(values: dict, filters: dict) -> bool:
+    """
+    values is match filters or not
+    :param values:
+    :param filters:
+    :return:
+    """
+    for field, filter_ in filters.items():
+        value = values[field]
+        if isinstance(filter_, str):
+            ret = value == filter_
+            if not ret:
+                return False
+        elif isinstance(filter_, list):
+            logic = filter_[0]
+            operators = filters[1:]
+            rets = []
+            for operator in operators:
+                op, exists_value = operator
+                if op == "GT":
+                    rets.append(value > exists_value)
+                elif op == "GTE":
+                    rets.append(value >= exists_value)
+                elif op == "LT":
+                    rets.append(value < exists_value)
+                elif op == "LTE":
+                    rets.append(value <= exists_value)
+                elif op == "!EQ":
+                    rets.append(value != exists_value)
+            if logic == "AND":
+                if not all(rets):
+                    return False
+            elif logic == "OR":
+                if not any(rets):
+                    return False
+    return True

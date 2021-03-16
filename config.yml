@@ -1,7 +1,7 @@
 redis:
   host: 127.0.0.1
   port: 6379
-  store_db: 0
+  db: 0
   max_len: 200000
 mysql:
   host: 127.0.0.1
@@ -10,8 +10,6 @@ mysql:
   password: '123456'
 replication:
   server_id: 1
-  master_log_file: binlog.000173
-  master_log_position: 82955969
   only_schemas:
     - test
   only_tables:

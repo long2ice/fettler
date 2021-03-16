@@ -1,0 +1,21 @@
+name: ci
+on: [ push, pull_request ]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: '123456'
+      - name: Redis Server in GitHub Actions
+        uses: supercharge/redis-github-action@1.1.0
+      - uses: actions/checkout@v2
+      - name: Run docker-compose
+        run: docker-compose up -d
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - uses: dschep/install-poetry-action@v1.3
+      - name: CI
+        run: make ci
