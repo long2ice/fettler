@@ -12,7 +12,7 @@ jobs:
         uses: supercharge/redis-github-action@1.1.0
       - uses: actions/checkout@v2
       - name: Run docker-compose
-        run: docker-compose up -d
+        run: docker-compose up -d --build
       - uses: actions/setup-python@v2
         with:
           python-version: "3.x"
