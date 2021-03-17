@@ -39,6 +39,13 @@ def is_match_filters(values: dict, filters: dict) -> bool:
     values is match filters or not
     :param values:
     :param filters:
+    example:
+        {
+             "id": 1,
+             "num": ["AND", ["GT", 1], ["LT", 1]]
+        }
+    all comparison operators: GT,GTE,LT,LTE,!EQ
+    all logic operators: AND,OR
     :return:
     """
     for field, filter_ in filters.items():

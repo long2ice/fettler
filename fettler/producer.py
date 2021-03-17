@@ -32,7 +32,9 @@ async def run(settings: Dynaconf):
         **settings.replication,
     )
     await stream.connect()
-    logger.info("Start producer success, listening on binlog....")
+    logger.info(
+        f"Start producer success, listening on binlog from schemas {settings.replication.only_schemas}...."
+    )
     async for event in stream:
         if isinstance(event, DeleteRowsEvent):
             type_ = "delete"

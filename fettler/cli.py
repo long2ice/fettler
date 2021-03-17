@@ -4,12 +4,10 @@ import sys
 from functools import wraps
 
 import click
-import uvicorn
 from click import Context
 from dynaconf import Dynaconf
 
 from fettler import __VERSION__, consumer, producer
-from fettler.server import create_app
 
 
 def coro(f):
@@ -54,15 +52,6 @@ async def consume(ctx: Context, name: str):
 async def produce(ctx: Context):
     settings = ctx.obj["settings"]
     await producer.run(settings)
-
-
-@cli.command(help="Start api server.")
-@click.pass_context
-def serve(ctx: Context):
-    settings = ctx.obj["settings"]
-    server_config = settings.server
-    app = create_app(settings)
-    uvicorn.run(app, debug=server_config.debug, host=server_config.host, port=server_config.port)
 
 
 def main():

@@ -14,7 +14,3 @@ replication: # the config item comes from https://github.com/long2ice/asyncmy/bl
     - test
   only_tables:
     - test.test
-server: # http server config
-  host: 0.0.0.0
-  port: 8000
-  debug: true

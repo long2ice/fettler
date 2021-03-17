@@ -2,10 +2,12 @@ import asyncio
 import json
 
 import aioredis
-import httpx
 from aioredis import Redis
 from tortoise import Tortoise, fields, run_async
 from tortoise.models import Model
+
+from fettler import constants
+from fettler.utils import JsonEncoder
 
 
 class Event(Model):
@@ -16,22 +18,17 @@ class Event(Model):
         table = "test"
 
 
-async def register_policy(key: str):
-    async with httpx.AsyncClient() as client:
-        data = {
-            "schema": "test",
-            "table": "test",
-            "key": key,
-        }
-        await client.post("http://127.0.0.1:8000/policy", json=data)
-
-
-async def cache_test(redis: Redis, key: str):
+async def cache(redis: Redis, key: str, filters=None):
+    if filters is None:
+        filters = {}
     data = await redis.get(key)
     if not data:
         data = await Event.all().values("id", "name")
-        await redis.set(key, json.dumps(data))
-        await register_policy(key)
+        p = redis.pipeline()
+        p.set(key, json.dumps(data))
+        # set cache invalid policy, the hset name format is fettler:<schema>:<table>, key is cache key, and value is filters
+        p.hset(f"{constants.PREFIX}test:test", key, json.dumps(filters, cls=JsonEncoder))
+        await p.execute()
     else:
         data = json.loads(data)
     return data
@@ -48,15 +45,15 @@ async def run():
     await Tortoise.get_connection("default").execute_query("truncate table test")
     test = await Event.create(name="Test")
 
-    data = await cache_test(redis, key)
+    data = await cache(redis, key)
     assert data == [{"id": 1, "name": "Test"}]
 
     test.name = "test"
     await test.save(update_fields=["name"])
 
     await asyncio.sleep(2)
-    # cache will auto delete by fettler, so we will get new data
-    data = await cache_test(redis, key)
+    # old cache will auto delete by fettler, so we will get latest data
+    data = await cache(redis, key)
     assert data == [{"id": 1, "name": "test"}]
 
     await Tortoise.close_connections()

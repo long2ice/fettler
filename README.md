@@ -28,7 +28,7 @@ The example can be found in [config.yml](./config.yml).
 
 ### Run services
 
-First you should run the services, which include `server`, `producer`, `consumer`.
+First you should run the services, which include `producer`, `consumer`.
 
 #### Use `docker-compose`(recommended)
 
@@ -36,17 +36,9 @@ First you should run the services, which include `server`, `producer`, `consumer
 docker-compose up -d --build
 ```
 
-Then the three services is running.
+Then the services is running.
 
 #### Run manual
-
-##### Run server
-
-The server start a http server and accept register cache refresh policy.
-
-```shell
-> fettler serve
-```
 
 ##### Run producer
 

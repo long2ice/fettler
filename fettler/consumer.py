@@ -18,7 +18,7 @@ async def run(settings: Dynaconf, name: str):
         await redis.xgroup_create(constants.STREAM, constants.GROUP_NAME, mkstream=True)
     except errors.BusyGroupError:
         pass
-    logger.info("Start consumer success")
+    logger.info("Start consumer success, waiting for data changes and delete invalid caches...")
     while True:
         msgs = await redis.xread_group(
             constants.GROUP_NAME, name, [constants.STREAM], latest_ids=[">"]
