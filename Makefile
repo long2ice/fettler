@@ -21,6 +21,10 @@ test: deps
 	$(py_warn) pytest
 
 build: deps
+	@rm -fR dist/
 	@poetry build
 
 ci: check test
+
+publish: build
+	@twine upload dist/*

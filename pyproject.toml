@@ -19,7 +19,7 @@ python = "^3.7"
 click = "*"
 dynaconf = "*"
 aioredis = "*"
-asyncmy = { git = "https://github.com/long2ice/asyncmy", branch = "dev" }
+asyncmy =  "*"
 ciso8601 = "*"
 loguru = "*"
 
