@@ -1,12 +1,7 @@
 version: "3"
 services:
-  producer:
+  fettler:
     image: long2ice/fettler
     volumes:
       - ./config.yml:/fettler/config.yml
-    command: fettler produce
-  consumer:
-    image: long2ice/fettler
-    volumes:
-      - ./config.yml:/fettler/config.yml
-    command: fettler consume
+    command: fettler start

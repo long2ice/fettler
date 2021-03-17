@@ -9,6 +9,14 @@ from dynaconf import Dynaconf
 
 from fettler import __VERSION__, consumer, producer
 
+option_name = click.option(
+    "-n",
+    "--name",
+    show_default=True,
+    default=socket.gethostname(),
+    help="Consumer name, default is hostname.",
+)
+
 
 def coro(f):
     @wraps(f)
@@ -32,13 +40,7 @@ def cli(ctx: Context, config: str):
 
 
 @cli.command(help="Start consumer.")
-@click.option(
-    "-n",
-    "--name",
-    show_default=True,
-    default=socket.gethostname(),
-    help="Consumer name, default is hostname.",
-)
+@option_name
 @click.pass_context
 @coro
 async def consume(ctx: Context, name: str):
@@ -52,6 +54,15 @@ async def consume(ctx: Context, name: str):
 async def produce(ctx: Context):
     settings = ctx.obj["settings"]
     await producer.run(settings)
+
+
+@cli.command(help="Start producer and consumer together.")
+@option_name
+@click.pass_context
+@coro
+async def start(ctx: Context, name: str):
+    settings = ctx.obj["settings"]
+    await asyncio.gather(producer.run(settings), consumer.run(settings, name))
 
 
 def main():

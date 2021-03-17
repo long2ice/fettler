@@ -46,14 +46,29 @@ The producer listens on MySQL binlog and send data changes to redis message queu
 
 ```shell
 > fettler produce
+
+2021-03-17 23:10:23.228 | INFO     | fettler.producer:run:36 - Start producer success, listening on binlog from schemas ['test']....
 ```
 
 ##### Run consumer
 
-The consumer consume message queue and delete invalid caches by data changes and refresh policy registered from server.
+The consumer consume message queue and delete invalid caches by data changes from binlog and refresh policy registered.
 
 ```shell
 > fettler consume
+
+2021-03-17 23:10:36.953 | INFO     | fettler.consumer:run:21 - Start consumer success, waiting for data changes and delete invalid caches...
+```
+
+##### Run both producer and consumer in one command
+
+If you just need one consumer, you can just run the producer and consumer in one command.
+
+```shell
+> fettler start
+
+2021-03-17 23:10:05.226 | INFO     | fettler.consumer:run:21 - Start consumer success, waiting for data changes and delete invalid caches...
+2021-03-17 23:10:05.230 | INFO     | fettler.producer:run:36 - Start producer success, listening on binlog from schemas ['test']....
 ```
 
 ## Register cache refresh policy
