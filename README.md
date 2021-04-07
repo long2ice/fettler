@@ -62,7 +62,7 @@ The consumer consume message queue and delete invalid caches by data changes fro
 
 ##### Run both producer and consumer in one command
 
-If you just need one consumer, you can just run the producer and consumer in one command.
+If you only need one consumer, you can just run the producer and consumer in one command.
 
 ```shell
 > fettler start

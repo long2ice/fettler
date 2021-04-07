@@ -7,7 +7,7 @@ from aioredis import Redis
 from tortoise import Tortoise
 
 from examples import main
-from examples.main import Event
+from examples.main import Test
 
 TEST_KEY = "test_cache"
 redis: Optional[Redis] = None
@@ -40,4 +40,4 @@ async def initialize_tests():
     redis = await aioredis.create_redis_pool("redis://127.0.0.1:6379", db=0, encoding="utf8")
     await redis.delete(TEST_KEY)
     await Tortoise.get_connection("default").execute_query("truncate table test")
-    await Event.create(name="Test")
+    await Test.create(name="Test")

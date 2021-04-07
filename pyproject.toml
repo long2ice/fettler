@@ -32,7 +32,7 @@ pytest-xdist = "*"
 pytest-asyncio = "*"
 bandit = "*"
 pytest-mock = "*"
-tortoise-orm = { git = "https://github.com/tortoise/tortoise-orm", branch = "develop" }
+tortoise-orm = "*"
 cryptography = "*"
 
 [build-system]

@@ -21,11 +21,7 @@ jobs:
           virtualenvs-create: false
       - name: Install deps
         run: make deps
-      - name: Run server
-        run: nohup fettler serve &
-      - name: Run producer
-        run: nohup fettler produce &
-      - name: Run consumer
-        run: nohup fettler consume &
+      - name: Start
+        run: nohup fettler start &
       - name: Run CI
         run: make ci

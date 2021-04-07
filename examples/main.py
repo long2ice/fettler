@@ -10,12 +10,9 @@ from fettler import constants
 from fettler.utils import JsonEncoder
 
 
-class Event(Model):
+class Test(Model):
     id = fields.IntField(pk=True)
     name = fields.TextField()
-
-    class Meta:
-        table = "test"
 
 
 async def cache(redis: Redis, key: str, filters=None):
@@ -23,7 +20,7 @@ async def cache(redis: Redis, key: str, filters=None):
         filters = {}
     data = await redis.get(key)
     if not data:
-        data = await Event.all().values("id", "name")
+        data = await Test.all().values("id", "name")
         p = redis.pipeline()
         p.set(key, json.dumps(data))
         # set cache invalid policy, the hset name format is fettler:<schema>:<table>, key is cache key, and value is filters
@@ -43,7 +40,7 @@ async def run():
     key = "test_cache"
     await redis.delete(key)
     await Tortoise.get_connection("default").execute_query("truncate table test")
-    test = await Event.create(name="Test")
+    test = await Test.create(name="Test")
 
     data = await cache(redis, key)
     assert data == [{"id": 1, "name": "Test"}]
